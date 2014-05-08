@@ -17,7 +17,7 @@
 
 =begin
 #<
-Adds, sets, and removes bootstrap properties for a particular server instance.
+Adds, removes, and sets bootstrap properties for a particular server instance.
 
 @action add    Adds properties to the bootstrap.properties file. Other existing properties in the file are preserved.
 @action remove Removes properties from the bootstrap.properties file. Other existing properties in the file are preserved.
@@ -49,7 +49,7 @@ actions :add, :remove, :set
 #<> @attribute server_name Name of the server instance.
 attribute :server_name, :kind_of => String, :default => nil
 
-#<> @attribute properties The properties to add, set, or remove. Must be specified as a hash when adding or setting and as an array when removing.
+#<> @attribute properties The properties to add, remove, or set. Must be specified as a hash when adding or setting and as an array when removing.
 attribute :properties, :kind_of => [Hash, Array], :default => nil
 
 default_action :set
