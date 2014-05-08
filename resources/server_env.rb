@@ -17,7 +17,7 @@
 
 =begin
 #<
-Adds, sets, and removes environment properties in installation-wide or instance-specific server.env file.
+Adds, removes, and sets environment properties in installation-wide or instance-specific server.env file.
 
 @action add    Adds environment properties to a server.env file. Other existing properties in the file are preserved.
 @action remove Removes environment properties from a server.env file. Other existing properties in the file are preserved.
