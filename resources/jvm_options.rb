@@ -17,7 +17,7 @@
 
 =begin
 #<
-Adds, sets, and removes JVM options in an installation-wide or instance-specific jvm.options file.
+Adds, removes, and sets JVM options in an installation-wide or instance-specific jvm.options file.
 
 @action add    Adds JVM options to a jvm.options file. Other existing options in the file are preserved. 
 @action remove Removes JVM options from a jvm.options file. Other existing options in the file are preserved. 
