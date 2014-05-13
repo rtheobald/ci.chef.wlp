@@ -94,16 +94,16 @@ node[:wlp][:servers][:airport] = {
 
 # Resources
 
-* [wlp_bootstrap_properties](#wlp_bootstrap_properties) - Adds, sets, and removes bootstrap properties for a particular server instance.
+* [wlp_bootstrap_properties](#wlp_bootstrap_properties) - Adds, removes, and sets bootstrap properties for a particular server instance.
 * [wlp_config](#wlp_config) - Generates a server.xml file from a hash expression.
 * [wlp_install_feature](#wlp_install_feature) - Installs a feature from an enterprise subsystem archive (ESA) file.
-* [wlp_jvm_options](#wlp_jvm_options) - Adds, sets, and removes JVM options in an installation-wide or instance-specific jvm.options file.
+* [wlp_jvm_options](#wlp_jvm_options) - Adds, removes, and sets JVM options in an installation-wide or instance-specific jvm.options file.
 * [wlp_server](#wlp_server) - Provides operations for creating, starting, stopping, and destroying Liberty profile server instances.
-* [wlp_server_env](#wlp_server_env) - Adds, sets, and removes environment properties in installation-wide or instance-specific server.env file.
+* [wlp_server_env](#wlp_server_env) - Adds, removes, and sets environment properties in installation-wide or instance-specific server.env file.
 
 ## wlp_bootstrap_properties
 
-Adds, sets, and removes bootstrap properties for a particular server instance.
+Adds, removes, and sets bootstrap properties for a particular server instance.
 
 ### Actions
 
@@ -114,7 +114,7 @@ Adds, sets, and removes bootstrap properties for a particular server instance.
 ### Attribute Parameters
 
 - server_name: Name of the server instance. Defaults to <code>nil</code>.
-- properties: The properties to add, set, or remove. Must be specified as a hash when adding or setting and as an array when removing. Defaults to <code>nil</code>.
+- properties: The properties to add, remove, or set. Must be specified as a hash when adding or setting and as an array when removing. Defaults to <code>nil</code>.
 
 ### Examples
 ```ruby
@@ -192,7 +192,7 @@ end
 
 ## wlp_jvm_options
 
-Adds, sets, and removes JVM options in an installation-wide or instance-specific jvm.options file.
+Adds, removes, and sets JVM options in an installation-wide or instance-specific jvm.options file.
 
 ### Actions
 
@@ -293,7 +293,7 @@ end
 
 ## wlp_server_env
 
-Adds, sets, and removes environment properties in installation-wide or instance-specific server.env file.
+Adds, removes, and sets environment properties in installation-wide or instance-specific server.env file.
 
 ### Actions
 
