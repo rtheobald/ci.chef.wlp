@@ -333,7 +333,7 @@ end
 
 # Support
 
-Use the [issue tracker][] for reporting any bugs or enhancements. For any questions please use the [WASdev forum](https://www.ibm.com/developerworks/community/forums/html/forum?id=11111111-0000-0000-0000-000000002666).
+Use the [issue tracker][] for reporting any bugs or enhancements. For any questions please use the [WASdev forum](https://developer.ibm.com/answers/?community=wasdev).
 
 [issue tracker]: https://github.com/WASdev/ci.chef.wlp/issues
 
