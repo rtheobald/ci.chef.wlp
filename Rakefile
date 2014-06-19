@@ -23,7 +23,7 @@ end
 desc "Runs 'rspec'"
 task :rspec do
   cookbooks_path = "#{sandbox_dir}/cookbooks"
-  sh "bundle exec berks install --path=#{cookbooks_path}"
+  sh "bundle exec berks vendor #{cookbooks_path}"
   sh "bundle exec rspec #{cookbooks_path}/wlp/spec"
 end
 

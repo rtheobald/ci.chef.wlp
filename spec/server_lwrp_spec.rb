@@ -18,9 +18,10 @@ describe "wlp_server" do
 
   context "start" do
     let (:chef_run) { 
-      chef_run = ChefSpec::ChefRunner.new(
+      chef_run = ChefSpec::Runner.new(
         :platform => "ubuntu", 
         :version => "12.04", 
+                                      :log_level => :debug,
         :step_into => [ "wlp_server" ],                                
         :cookbook_path => ["..", "spec/cookbooks"])
       chef_run.node.set["wlp"]["archive"]["accept_license"] = true
@@ -34,15 +35,13 @@ describe "wlp_server" do
 
     it "create init.d script" do
       initdFile = "/etc/init.d/wlp-testStartServer"
-      expect(chef_run).to create_file initdFile
-      file = chef_run.template(initdFile)
-      expect(file).to be_owned_by("root", "root")
+      expect(chef_run).to create_template(initdFile).with(:user => 'root', :group => 'root')
     end
 
     ### TODO: Check for notifications (needs newer ChefSpec)
 
     it "enable service at boot" do
-      expect(chef_run).to set_service_to_start_on_boot("wlp-#{serverName}")
+      expect(chef_run).to enable_service("wlp-#{serverName}")
     end
 
     it "start service" do
@@ -57,7 +56,7 @@ describe "wlp_server" do
 
   context "stop" do
     let (:chef_run) { 
-      chef_run = ChefSpec::ChefRunner.new(
+      chef_run = ChefSpec::Runner.new(
         :platform => "ubuntu", 
         :version => "12.04", 
         :step_into => [ "wlp_server" ],     
@@ -80,21 +79,21 @@ describe "wlp_server" do
       File.should_receive(:exists?).with(/servers\/#{serverName}/).and_return(true)
       chef_run.converge "test::server_basic"
       expect(chef_run).to stop_service("wlp-#{serverName}")
-      expect(chef_run).to set_service_to_not_start_on_boot("wlp-#{serverName}")
+      expect(chef_run).not_to enable_service("wlp-#{serverName}")
     end
 
     it "not stop service" do
       File.should_receive(:exists?).with(/servers\/#{serverName}/).and_return(false)
       chef_run.converge "test::server_basic"
       expect(chef_run).not_to stop_service("wlp-#{serverName}")
-      expect(chef_run).not_to set_service_to_not_start_on_boot("wlp-#{serverName}")
+      expect(chef_run).not_to enable_service("wlp-#{serverName}")
     end
 
   end
 
   context "destroy" do
     let (:chef_run) { 
-      chef_run = ChefSpec::ChefRunner.new(
+      chef_run = ChefSpec::Runner.new(
         :platform => "ubuntu", 
         :version => "12.04", 
         :step_into => [ "wlp_server" ],     
@@ -121,7 +120,7 @@ describe "wlp_server" do
       ::File.should_receive(:exists?).with(/servers\/#{serverName}/).and_return(true)
       chef_run.converge "test::server_basic"
       expect(chef_run).to stop_service("wlp-#{serverName}")
-      expect(chef_run).to set_service_to_not_start_on_boot("wlp-#{serverName}")
+      expect(chef_run).not_to enable_service("wlp-#{serverName}")
       expect(chef_run).to delete_directory(serverDir)
     end
 
@@ -129,7 +128,7 @@ describe "wlp_server" do
       ::File.should_receive(:exists?).with(/servers\/#{serverName}/).and_return(false)
       chef_run.converge "test::server_basic"
       expect(chef_run).not_to stop_service("wlp-#{serverName}")
-      expect(chef_run).not_to set_service_to_not_start_on_boot("wlp-#{serverName}")
+      expect(chef_run).not_to enable_service("wlp-#{serverName}")
       expect(chef_run).not_to delete_directory(serverDir)
     end
 
@@ -137,7 +136,7 @@ describe "wlp_server" do
 
   context "create" do
     let (:chef_run) { 
-      chef_run = ChefSpec::ChefRunner.new(
+      chef_run = ChefSpec::Runner.new(
         :platform => "ubuntu", 
         :version => "12.04", 
         :step_into => [ "wlp_server" ],     
