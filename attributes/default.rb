@@ -43,25 +43,25 @@ default[:wlp][:install_method] = 'archive'
 default[:wlp][:archive][:base_url] = nil
 
 #<> URL location of the runtime archive.
-default[:wlp][:archive][:runtime][:url] = "#{node[:wlp][:archive][:base_url]}/wlp-developers-runtime-8.5.5.1.jar"
+default[:wlp][:archive][:runtime][:url] = "#{node[:wlp][:archive][:base_url]}/wlp-developers-runtime-8.5.5.2.jar"
 
 #<> Checksum value for the runtime archive.
-default[:wlp][:archive][:runtime][:checksum] = 'df6e4cf78f91745a11372f1b4a8467fea8e7c53ddec48471cf92729deb88d306'
+default[:wlp][:archive][:runtime][:checksum] = 'd3e78cb43ab6392175807b54495bc8996ec9bc7b33cd1fc9699de3e74a9696bc'
                                                 
 #<> URL location of the extended archive.
-default[:wlp][:archive][:extended][:url] = "#{node[:wlp][:archive][:base_url]}/wlp-developers-extended-8.5.5.1.jar"
+default[:wlp][:archive][:extended][:url] = "#{node[:wlp][:archive][:base_url]}/wlp-developers-extended-8.5.5.2.jar"
 
 #<> Checksum value for the extended archive.
-default[:wlp][:archive][:extended][:checksum] = 'd511fc4068f4e9c345b8fbfa2423fa00e476c2d771dde884a4b962fc3094149c'
+default[:wlp][:archive][:extended][:checksum] = 'b4cd9ae8716073ef4c6a2181f7201a31d2c24cfd55337694f09bed7715548ca3'
 
 #<> Controls whether the extended archive is downloaded and installed.
 default[:wlp][:archive][:extended][:install] = true
 
 #<> URL location of the extras archive.
-default[:wlp][:archive][:extras][:url] = "#{node[:wlp][:archive][:base_url]}/wlp-developers-extras-8.5.5.1.jar"
+default[:wlp][:archive][:extras][:url] = "#{node[:wlp][:archive][:base_url]}/wlp-developers-extras-8.5.5.2.jar"
 
 #<> Checksum value for the extras archive.
-default[:wlp][:archive][:extras][:checksum] = 'c468247e18ffb85b1d691f67839471ccd4390b299eb997151f7b56efc6332f4d'
+default[:wlp][:archive][:extras][:checksum] = 'b99a6b4e501c7c6214db49342d198d9949b60b6017f9f75692fd562295ebc11a'
 
 #<> Controls whether the extras archive is downloaded and installed.
 default[:wlp][:archive][:extras][:install] = false
