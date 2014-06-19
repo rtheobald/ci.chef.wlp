@@ -21,7 +21,6 @@ describe "wlp_server" do
       chef_run = ChefSpec::Runner.new(
         :platform => "ubuntu", 
         :version => "12.04", 
-                                      :log_level => :debug,
         :step_into => [ "wlp_server" ],                                
         :cookbook_path => ["..", "spec/cookbooks"])
       chef_run.node.set["wlp"]["archive"]["accept_license"] = true
