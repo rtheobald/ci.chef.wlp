@@ -37,30 +37,30 @@ When the zip installation method is used, only the `node[:wlp][:zip][:url]` attr
 
 # Attributes
 
-* `node[:wlp][:user]` - User name under which the server is installed and runs. Defaults to `wlp`.
-* `node[:wlp][:group]` - Group name under which the server is installed and runs. Defaults to `wlp-admin`.
+* `node[:wlp][:user]` - User name under which the server is installed and runs. Defaults to `"wlp"`.
+* `node[:wlp][:group]` - Group name under which the server is installed and runs. Defaults to `"wlp-admin"`.
 * `node[:wlp][:install_java]` - Use the `java` cookbook to install Java. If Java is installed using a different method
-set it to `false`. The Java executables must be available on the __PATH__. Defaults to `true`.
-* `node[:wlp][:base_dir]` - Base installation directory. Defaults to `/opt/was/liberty`.
-* `node[:wlp][:user_dir]` - Set user configuration directory (wlp.user.dir). Set to 'nil' to use default location. Defaults to `nil`.
-* `node[:wlp][:install_method]` - Installation method. Set it to 'archive' or 'zip'. Defaults to `archive`.
+set it to `false`. The Java executables must be available on the __PATH__. Defaults to `"true"`.
+* `node[:wlp][:base_dir]` - Base installation directory. Defaults to `"/opt/was/liberty"`.
+* `node[:wlp][:user_dir]` - Set user configuration directory (wlp.user.dir). Set to 'nil' to use default location. Defaults to `"nil"`.
+* `node[:wlp][:install_method]` - Installation method. Set it to 'archive' or 'zip'. Defaults to `"archive"`.
 * `node[:wlp][:archive][:base_url]` - Base URL location for downloading the runtime, extended, and extras Liberty profile archives.
-Must be set when `node[:wlp][:install_method]` is set to `archive`. Defaults to `nil`.
-* `node[:wlp][:archive][:runtime][:url]` - URL location of the runtime archive. Defaults to `#{node[:wlp][:archive][:base_url]}/wlp-developers-runtime-8.5.5.1.jar`.
-* `node[:wlp][:archive][:runtime][:checksum]` - Checksum value for the runtime archive. Defaults to `df6e4cf78f91745a11372f1b4a8467fea8e7c53ddec48471cf92729deb88d306`.
-* `node[:wlp][:archive][:extended][:url]` - URL location of the extended archive. Defaults to `#{node[:wlp][:archive][:base_url]}/wlp-developers-extended-8.5.5.1.jar`.
-* `node[:wlp][:archive][:extended][:checksum]` - Checksum value for the extended archive. Defaults to `d511fc4068f4e9c345b8fbfa2423fa00e476c2d771dde884a4b962fc3094149c`.
-* `node[:wlp][:archive][:extended][:install]` - Controls whether the extended archive is downloaded and installed. Defaults to `true`.
-* `node[:wlp][:archive][:extras][:url]` - URL location of the extras archive. Defaults to `#{node[:wlp][:archive][:base_url]}/wlp-developers-extras-8.5.5.1.jar`.
-* `node[:wlp][:archive][:extras][:checksum]` - Checksum value for the extras archive. Defaults to `c468247e18ffb85b1d691f67839471ccd4390b299eb997151f7b56efc6332f4d`.
-* `node[:wlp][:archive][:extras][:install]` - Controls whether the extras archive is downloaded and installed. Defaults to `false`.
-* `node[:wlp][:archive][:extras][:base_dir]` - Base installation directory of the extras archive. Defaults to `#{node[:wlp][:base_dir]}/extras`.
+Must be set when `node[:wlp][:install_method]` is set to `archive`. Defaults to `"nil"`.
+* `node[:wlp][:archive][:runtime][:url]` - URL location of the runtime archive. Defaults to `"\#{node[:wlp][:archive][:base_url]}/wlp-developers-runtime-8.5.5.2.jar"`.
+* `node[:wlp][:archive][:runtime][:checksum]` - Checksum value for the runtime archive. Defaults to `"d3e78cb43ab6392175807b54495bc8996ec9bc7b33cd1fc9699de3e74a9696bc"`.
+* `node[:wlp][:archive][:extended][:url]` - URL location of the extended archive. Defaults to `"\#{node[:wlp][:archive][:base_url]}/wlp-developers-extended-8.5.5.2.jar"`.
+* `node[:wlp][:archive][:extended][:checksum]` - Checksum value for the extended archive. Defaults to `"b4cd9ae8716073ef4c6a2181f7201a31d2c24cfd55337694f09bed7715548ca3"`.
+* `node[:wlp][:archive][:extended][:install]` - Controls whether the extended archive is downloaded and installed. Defaults to `"true"`.
+* `node[:wlp][:archive][:extras][:url]` - URL location of the extras archive. Defaults to `"\#{node[:wlp][:archive][:base_url]}/wlp-developers-extras-8.5.5.2.jar"`.
+* `node[:wlp][:archive][:extras][:checksum]` - Checksum value for the extras archive. Defaults to `"b99a6b4e501c7c6214db49342d198d9949b60b6017f9f75692fd562295ebc11a"`.
+* `node[:wlp][:archive][:extras][:install]` - Controls whether the extras archive is downloaded and installed. Defaults to `"false"`.
+* `node[:wlp][:archive][:extras][:base_dir]` - Base installation directory of the extras archive. Defaults to `"\#{node[:wlp][:base_dir]}/extras"`.
 * `node[:wlp][:archive][:accept_license]` - Accept license terms when doing archive-based installation.
-Must be set to `true` or the installation fails. Defaults to `false`.
+Must be set to `true` or the installation fails. Defaults to `"false"`.
 * `node[:wlp][:zip][:url]` - URL location for a zip file containing Liberty profile installation files. Must be set
-if `node[:wlp][:install_method]` is set to `zip`. Defaults to `nil`.
-* `node[:wlp][:config][:basic]` - Defines a basic server configuration when creating server instances using the `wlp_server` resource. Defaults to `{ ... }`.
-* `node[:wlp][:servers][:defaultServer]` - Defines a `defaultServer` server instance. Used by the `serverconfig` recipe. Defaults to `{ ... }`.
+if `node[:wlp][:install_method]` is set to `zip`. Defaults to `"nil"`.
+* `node[:wlp][:config][:basic]` - Defines a basic server configuration when creating server instances using the `wlp_server` resource. Defaults to `"{ ... }"`.
+* `node[:wlp][:servers][:defaultServer]` - Defines a `defaultServer` server instance. Used by the `serverconfig` recipe. Defaults to `"{ ... }"`.
 
 # Recipes
 
@@ -333,7 +333,7 @@ end
 
 # Support
 
-Use the [issue tracker][] for reporting any bugs or enhancements. For any questions please use the [WASdev forum](https://developer.ibm.com/answers/?community=wasdev).
+Use the [issue tracker][] for reporting any bugs or enhancements. For any questions please use the [WASdev forum](https://www.ibm.com/developerworks/community/forums/html/forum?id=11111111-0000-0000-0000-000000002666).
 
 [issue tracker]: https://github.com/WASdev/ci.chef.wlp/issues
 
