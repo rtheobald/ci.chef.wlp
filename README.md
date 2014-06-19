@@ -185,7 +185,7 @@ Installs a feature from an enterprise subsystem archive (ESA) file.
 ### Examples
 ```ruby
 wlp_install_feature "mongodb" do
-  location "http://public.dhe.ibm.com/ibmdl/export/pub/software/websphere/wasdev/downloads/wlp/8.5.5.1/com.ibm.websphere.appserver.mongodb-2.0.esa"
+  location "http://example.com/websphere/liberty/profile/com.ibm.websphere.appserver.mongodb-2.0.esa"
   accept_license true
 end
 ```
