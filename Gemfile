@@ -8,7 +8,7 @@ gem 'chefspec'
 
 gem 'berkshelf'
 
-gem 'test-kitchen', '>= 1.0.0.beta.3'
+gem 'test-kitchen', '>= 1.2.0'
 
 gem 'kitchen-vagrant'
 

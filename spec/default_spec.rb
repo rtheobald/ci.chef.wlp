@@ -1,5 +1,5 @@
 #
-# (C) Copyright IBM Corporation 2013.
+# (C) Copyright IBM Corporation 2014.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -18,7 +18,7 @@ describe "wlp::default" do
 
   context "archive::basic" do
     let (:chef_run) { 
-      chef_run = ChefSpec::ChefRunner.new(:platform => "ubuntu", :version => "12.04")
+      chef_run = ChefSpec::Runner.new(:platform => "ubuntu", :version => "12.04")
       chef_run.node.set["wlp"]["archive"]["base_url"] = "http://example.com/"
       chef_run.node.set["wlp"]["archive"]["accept_license"] = true
       chef_run.node.set["wlp"]["archive"]["runtime"]["url"] = "#{chef_run.node["wlp"]["archive"]["base_url"]}/runtime.jar"
@@ -47,7 +47,8 @@ describe "wlp::default" do
       baseDir = chef_run.node["wlp"]["base_dir"]
       expect(chef_run).to create_directory(baseDir)
       dir = chef_run.directory(baseDir)
-      expect(dir).to be_owned_by(chef_run.node["wlp"]["user"], chef_run.node["wlp"]["group"])
+      expect(dir.owner).to eq(chef_run.node["wlp"]["user"])
+      expect(dir.group).to eq(chef_run.node["wlp"]["group"])
     end
 
     it "download runtime.jar" do
@@ -63,15 +64,15 @@ describe "wlp::default" do
     end
 
     it  "install runtime.jar" do
-      expect(chef_run).to execute_command("java -jar /var/chef/cache/runtime.jar --acceptLicense #{chef_run.node["wlp"]["base_dir"]}").with(:user => chef_run.node["wlp"]["user"], :group => chef_run.node["wlp"]["group"])
+      expect(chef_run).to run_execute("java -jar /var/chef/cache/runtime.jar --acceptLicense #{chef_run.node["wlp"]["base_dir"]}").with(:user => chef_run.node["wlp"]["user"], :group => chef_run.node["wlp"]["group"])
     end
 
     it  "install extended.jar" do
-      expect(chef_run).to execute_command("java -jar /var/chef/cache/extended.jar --acceptLicense #{chef_run.node["wlp"]["base_dir"]}").with(:user => chef_run.node["wlp"]["user"], :group => chef_run.node["wlp"]["group"])
+      expect(chef_run).to run_execute("java -jar /var/chef/cache/extended.jar --acceptLicense #{chef_run.node["wlp"]["base_dir"]}").with(:user => chef_run.node["wlp"]["user"], :group => chef_run.node["wlp"]["group"])
     end
 
     it  "not install extras.jar" do
-      expect(chef_run).not_to execute_command("java -jar /var/chef/cache/extras.jar --acceptLicense #{chef_run.node["wlp"]["archive"]["extras"]["base_dir"]}").with(:user => chef_run.node["wlp"]["user"], :group => chef_run.node["wlp"]["group"])
+      expect(chef_run).not_to run_execute("java -jar /var/chef/cache/extras.jar --acceptLicense #{chef_run.node["wlp"]["archive"]["extras"]["base_dir"]}").with(:user => chef_run.node["wlp"]["user"], :group => chef_run.node["wlp"]["group"])
     end
 
   end
@@ -79,7 +80,7 @@ describe "wlp::default" do
   ### Install runtime without extended but with extras archive and non-default user/group"
   context "archive::basic -extended and +extras" do
     let (:chef_run) { 
-      chef_run = ChefSpec::ChefRunner.new(:platform => "ubuntu", :version => "12.04")
+      chef_run = ChefSpec::Runner.new(:platform => "ubuntu", :version => "12.04")
       chef_run.node.set["wlp"]["user"] = "liberty"
       chef_run.node.set["wlp"]["group"] = "admin"
       chef_run.node.set["wlp"]["archive"]["base_url"] = "http://example.com/"
@@ -108,7 +109,8 @@ describe "wlp::default" do
       baseDir = chef_run.node["wlp"]["base_dir"]
       expect(chef_run).to create_directory(baseDir)
       dir = chef_run.directory(baseDir)
-      expect(dir).to be_owned_by(chef_run.node["wlp"]["user"], chef_run.node["wlp"]["group"])
+      expect(dir.owner).to eq(chef_run.node["wlp"]["user"])
+      expect(dir.group).to eq(chef_run.node["wlp"]["group"])
     end
 
     it "download runtime.jar" do
@@ -124,15 +126,15 @@ describe "wlp::default" do
     end
 
     it  "install runtime.jar" do
-      expect(chef_run).to execute_command("java -jar /var/chef/cache/runtime.jar --acceptLicense #{chef_run.node["wlp"]["base_dir"]}").with(:user => chef_run.node["wlp"]["user"], :group => chef_run.node["wlp"]["group"])
+      expect(chef_run).to run_execute("java -jar /var/chef/cache/runtime.jar --acceptLicense #{chef_run.node["wlp"]["base_dir"]}").with(:user => chef_run.node["wlp"]["user"], :group => chef_run.node["wlp"]["group"])
     end
 
     it  "not install extended.jar" do
-      expect(chef_run).not_to execute_command("java -jar /var/chef/cache/extended.jar --acceptLicense #{chef_run.node["wlp"]["base_dir"]}").with(:user => chef_run.node["wlp"]["user"], :group => chef_run.node["wlp"]["group"])
+      expect(chef_run).not_to run_execute("java -jar /var/chef/cache/extended.jar --acceptLicense #{chef_run.node["wlp"]["base_dir"]}").with(:user => chef_run.node["wlp"]["user"], :group => chef_run.node["wlp"]["group"])
     end
 
     it  "install extras.jar" do
-      expect(chef_run).to execute_command("java -jar /var/chef/cache/extras.jar --acceptLicense #{chef_run.node["wlp"]["archive"]["extras"]["base_dir"]}").with(:user => chef_run.node["wlp"]["user"], :group => chef_run.node["wlp"]["group"])
+      expect(chef_run).to run_execute("java -jar /var/chef/cache/extras.jar --acceptLicense #{chef_run.node["wlp"]["archive"]["extras"]["base_dir"]}").with(:user => chef_run.node["wlp"]["user"], :group => chef_run.node["wlp"]["group"])
     end
 
   end
@@ -140,7 +142,7 @@ describe "wlp::default" do
   ### Install runtime, extended, extras "
   context "archive:all" do
     let (:chef_run) { 
-      chef_run = ChefSpec::ChefRunner.new(:platform => "ubuntu", :version => "12.04")
+      chef_run = ChefSpec::Runner.new(:platform => "ubuntu", :version => "12.04")
       chef_run.node.set["wlp"]["archive"]["base_url"] = "http://example.com/"
       chef_run.node.set["wlp"]["archive"]["accept_license"] = true
       chef_run.node.set["wlp"]["base_dir"] = "/liberty"
@@ -170,14 +172,16 @@ describe "wlp::default" do
       baseDir = chef_run.node["wlp"]["base_dir"]
       expect(chef_run).to create_directory(baseDir)
       dir = chef_run.directory(baseDir)
-      expect(dir).to be_owned_by(chef_run.node["wlp"]["user"], chef_run.node["wlp"]["group"])
+      expect(dir.owner).to eq(chef_run.node["wlp"]["user"])
+      expect(dir.group).to eq(chef_run.node["wlp"]["group"])
     end
 
     it "create user config directory" do
       baseDir = chef_run.node["wlp"]["user_dir"]
       expect(chef_run).to create_directory(baseDir)
       dir = chef_run.directory(baseDir)
-      expect(dir).to be_owned_by(chef_run.node["wlp"]["user"], chef_run.node["wlp"]["group"])
+      expect(dir.owner).to eq(chef_run.node["wlp"]["user"])
+      expect(dir.group).to eq(chef_run.node["wlp"]["group"])
     end
 
     it "download runtime.jar" do
@@ -193,15 +197,15 @@ describe "wlp::default" do
     end
 
     it  "install runtime.jar" do
-      expect(chef_run).to execute_command("java -jar /var/chef/cache/runtime.jar --acceptLicense #{chef_run.node["wlp"]["base_dir"]}").with(:user => chef_run.node["wlp"]["user"], :group => chef_run.node["wlp"]["group"])
+      expect(chef_run).to run_execute("java -jar /var/chef/cache/runtime.jar --acceptLicense #{chef_run.node["wlp"]["base_dir"]}").with(:user => chef_run.node["wlp"]["user"], :group => chef_run.node["wlp"]["group"])
     end
 
     it  "install extended.jar" do
-      expect(chef_run).to execute_command("java -jar /var/chef/cache/extended.jar --acceptLicense #{chef_run.node["wlp"]["base_dir"]}").with(:user => chef_run.node["wlp"]["user"], :group => chef_run.node["wlp"]["group"])
+      expect(chef_run).to run_execute("java -jar /var/chef/cache/extended.jar --acceptLicense #{chef_run.node["wlp"]["base_dir"]}").with(:user => chef_run.node["wlp"]["user"], :group => chef_run.node["wlp"]["group"])
     end
 
     it  "install extras.jar" do
-      expect(chef_run).to execute_command("java -jar /var/chef/cache/extras.jar --acceptLicense #{chef_run.node["wlp"]["archive"]["extras"]["base_dir"]}").with(:user => chef_run.node["wlp"]["user"], :group => chef_run.node["wlp"]["group"])
+      expect(chef_run).to run_execute("java -jar /var/chef/cache/extras.jar --acceptLicense #{chef_run.node["wlp"]["archive"]["extras"]["base_dir"]}").with(:user => chef_run.node["wlp"]["user"], :group => chef_run.node["wlp"]["group"])
     end
 
   end
@@ -209,7 +213,7 @@ describe "wlp::default" do
   ### Install using zip 
   context "zip::basic" do
     let (:chef_run) { 
-      chef_run = ChefSpec::ChefRunner.new(:platform => "ubuntu", :version => "12.04")
+      chef_run = ChefSpec::Runner.new(:platform => "ubuntu", :version => "12.04")
       chef_run.node.set["wlp"]["install_method"] = "zip"
       chef_run.node.set["wlp"]["zip"]["url"] = "http://example.com/wlp.zip"
       chef_run.converge "wlp::default"
@@ -235,7 +239,8 @@ describe "wlp::default" do
       baseDir = chef_run.node["wlp"]["base_dir"]
       expect(chef_run).to create_directory(baseDir)
       dir = chef_run.directory(baseDir)
-      expect(dir).to be_owned_by(chef_run.node["wlp"]["user"], chef_run.node["wlp"]["group"])
+      expect(dir.owner).to eq(chef_run.node["wlp"]["user"])
+      expect(dir.group).to eq(chef_run.node["wlp"]["group"])
     end
 
     it "install unzip package" do
@@ -247,7 +252,7 @@ describe "wlp::default" do
     end
 
     it  "unzip wlp.zip" do
-      expect(chef_run).to execute_command("unzip /var/chef/cache/wlp.zip").with(:cwd => chef_run.node["wlp"]["base_dir"], :user => chef_run.node["wlp"]["user"], :group => chef_run.node["wlp"]["group"])
+      expect(chef_run).to run_execute("unzip /var/chef/cache/wlp.zip").with(:cwd => chef_run.node["wlp"]["base_dir"], :user => chef_run.node["wlp"]["user"], :group => chef_run.node["wlp"]["group"])
     end
 
   end
@@ -255,7 +260,7 @@ describe "wlp::default" do
   ### Install using zip
   context "zip::basic file url" do
     let (:chef_run) { 
-      chef_run = ChefSpec::ChefRunner.new(:platform => "ubuntu", :version => "12.04")
+      chef_run = ChefSpec::Runner.new(:platform => "ubuntu", :version => "12.04")
       chef_run.node.set["wlp"]["install_method"] = "zip"
       chef_run.node.set["wlp"]["zip"]["url"] = "file:///mnt/shared/wlp.zip"
       chef_run.converge "wlp::default"
@@ -277,7 +282,8 @@ describe "wlp::default" do
       baseDir = chef_run.node["wlp"]["base_dir"]
       expect(chef_run).to create_directory(baseDir)
       dir = chef_run.directory(baseDir)
-      expect(dir).to be_owned_by(chef_run.node["wlp"]["user"], chef_run.node["wlp"]["group"])
+      expect(dir.owner).to eq(chef_run.node["wlp"]["user"])
+      expect(dir.group).to eq(chef_run.node["wlp"]["group"])
     end
 
     it "install unzip package" do
@@ -289,7 +295,7 @@ describe "wlp::default" do
     end
 
     it  "unzip wlp.zip" do
-      expect(chef_run).to execute_command("unzip /mnt/shared/wlp.zip").with(:cwd => chef_run.node["wlp"]["base_dir"], :user => chef_run.node["wlp"]["user"], :group => chef_run.node["wlp"]["group"])
+      expect(chef_run).to run_execute("unzip /mnt/shared/wlp.zip").with(:cwd => chef_run.node["wlp"]["base_dir"], :user => chef_run.node["wlp"]["user"], :group => chef_run.node["wlp"]["group"])
     end
 
   end
@@ -297,7 +303,7 @@ describe "wlp::default" do
   # Test handling of file:// urls
   context "archive::all file url" do
     let (:chef_run) { 
-      chef_run = ChefSpec::ChefRunner.new(:platform => "ubuntu", :version => "12.04")
+      chef_run = ChefSpec::Runner.new(:platform => "ubuntu", :version => "12.04")
       chef_run.node.set["wlp"]["archive"]["base_url"] = "file:///mnt/shared"
       chef_run.node.set["wlp"]["archive"]["accept_license"] = true
       chef_run.node.set["wlp"]["archive"]["runtime"]["url"] = "#{chef_run.node["wlp"]["archive"]["base_url"]}/runtime.jar"
@@ -323,7 +329,8 @@ describe "wlp::default" do
       baseDir = chef_run.node["wlp"]["base_dir"]
       expect(chef_run).to create_directory(baseDir)
       dir = chef_run.directory(baseDir)
-      expect(dir).to be_owned_by(chef_run.node["wlp"]["user"], chef_run.node["wlp"]["group"])
+      expect(dir.owner).to eq(chef_run.node["wlp"]["user"])
+      expect(dir.group).to eq(chef_run.node["wlp"]["group"])
     end
 
     it "download runtime.jar" do
@@ -339,15 +346,15 @@ describe "wlp::default" do
     end
 
     it  "install runtime.jar" do
-      expect(chef_run).to execute_command("java -jar /mnt/shared/runtime.jar --acceptLicense #{chef_run.node["wlp"]["base_dir"]}").with(:user => chef_run.node["wlp"]["user"], :group => chef_run.node["wlp"]["group"])
+      expect(chef_run).to run_execute("java -jar /mnt/shared/runtime.jar --acceptLicense #{chef_run.node["wlp"]["base_dir"]}").with(:user => chef_run.node["wlp"]["user"], :group => chef_run.node["wlp"]["group"])
     end
 
     it  "install extended.jar" do
-      expect(chef_run).to execute_command("java -jar /mnt/shared/extended.jar --acceptLicense #{chef_run.node["wlp"]["base_dir"]}").with(:user => chef_run.node["wlp"]["user"], :group => chef_run.node["wlp"]["group"])
+      expect(chef_run).to run_execute("java -jar /mnt/shared/extended.jar --acceptLicense #{chef_run.node["wlp"]["base_dir"]}").with(:user => chef_run.node["wlp"]["user"], :group => chef_run.node["wlp"]["group"])
     end
 
     it  "install extras.jar" do
-      expect(chef_run).to execute_command("java -jar /root/extras.jar --acceptLicense #{chef_run.node["wlp"]["archive"]["extras"]["base_dir"]}").with(:user => chef_run.node["wlp"]["user"], :group => chef_run.node["wlp"]["group"])
+      expect(chef_run).to run_execute("java -jar /root/extras.jar --acceptLicense #{chef_run.node["wlp"]["archive"]["extras"]["base_dir"]}").with(:user => chef_run.node["wlp"]["user"], :group => chef_run.node["wlp"]["group"])
     end
 
   end
@@ -355,7 +362,7 @@ describe "wlp::default" do
   # test without using java cookbook
   context "archive::basic no java" do
     let (:chef_run) { 
-      chef_run = ChefSpec::ChefRunner.new(:platform => "ubuntu", :version => "12.04")
+      chef_run = ChefSpec::Runner.new(:platform => "ubuntu", :version => "12.04")
       chef_run.node.set["wlp"]["archive"]["base_url"] = "http://example.com/"
       chef_run.node.set["wlp"]["archive"]["accept_license"] = true
       chef_run.node.set["wlp"]["archive"]["runtime"]["url"] = "#{chef_run.node["wlp"]["archive"]["base_url"]}/runtime.jar"
@@ -376,7 +383,7 @@ describe "wlp::default" do
 
  context "zip::basic no java" do
     let (:chef_run) { 
-      chef_run = ChefSpec::ChefRunner.new(:platform => "ubuntu", :version => "12.04")
+      chef_run = ChefSpec::Runner.new(:platform => "ubuntu", :version => "12.04")
       chef_run.node.set["wlp"]["install_method"] = "zip"
       chef_run.node.set["wlp"]["zip"]["url"] = "http://example.com/wlp.zip"
       chef_run.node.set["wlp"]["install_java"] = false
