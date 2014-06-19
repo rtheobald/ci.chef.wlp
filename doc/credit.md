@@ -1,6 +1,11 @@
+# Contributing
+
+Please see our [contributing guide](https://github.com/WASdev/ci.chef.wlp/blob/master/CONTRIBUTING.md).
+
+
 # Support
 
-Use the [issue tracker][] for reporting any bugs or enhancements. For any questions please use the [WASdev forum](https://www.ibm.com/developerworks/community/forums/html/forum?id=11111111-0000-0000-0000-000000002666).
+Use the [issue tracker][] for reporting any bugs or enhancements. For any questions please use the [WASdev forum](https://developer.ibm.com/answers/?community=wasdev).
 
 [issue tracker]: https://github.com/WASdev/ci.chef.wlp/issues
 
@@ -8,7 +13,7 @@ The cookbook is maintained by IBM.
 
 # Notice
 
-© Copyright IBM Corporation 2013.
+© Copyright IBM Corporation 2013, 2014.
 
 # License
 
