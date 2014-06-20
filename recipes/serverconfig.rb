@@ -47,7 +47,7 @@ servers_dir = utils.serversDirectory
 node[:wlp][:servers].each_pair do |key, value| 
   map = value.to_hash()
   enabled = map.delete("enabled")
-  if enabled.nil? || enabled == true
+  if enabled.nil? || enabled == true || enabled == "true"
     serverName = map.delete("serverName") || key
 
     directory "#{servers_dir}/#{serverName}" do
