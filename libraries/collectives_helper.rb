@@ -27,8 +27,8 @@ module Liberty
     end
 
     def join(member_name, host, port, user, password, keystorePassword)
-      if exists?(server_name)
-        command = "join #{server_name} --host=#{host} --port=#{port} --user=#{user} --password=#{password} --keystorePassword=#{keystorePassword}"
+      if exists?(member_name)
+        command = "join #{member_name} --host=#{host} --port=#{port} --user=#{user} --password=#{password} --keystorePassword=#{keystorePassword}"
         join = runCommand(command)
         join.error!
         return true

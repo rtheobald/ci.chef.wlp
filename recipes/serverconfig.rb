@@ -47,6 +47,10 @@ servers_dir = utils.serversDirectory
 node[:wlp][:servers].each_pair do |key, value| 
   map = value.to_hash()
   enabled = map.delete("enabled")
+  collective = map.delete("collective")
+  isCollectiveController = map.delete("isCollectiveController")
+  isCollectiveMember = map.delete("isCollectiveMember")
+  Chef::Log.warn "#{key} will be added to the #{collective} collective. Is controller: #{isCollectiveController} member: #{isCollectiveMember}"
   if enabled.nil? || enabled == true || enabled == "true"
     serverName = map.delete("serverName") || key
 
@@ -60,5 +64,30 @@ node[:wlp][:servers].each_pair do |key, value|
     wlp_config "#{servers_dir}/#{serverName}/server.xml" do
       config map
     end
+	
+	if enabled.nil? || isCollectiveController == true || isCollectiveController == "true"
+	  Chef::Log.warn "Calling wlp_collective"
+	  wlp_collective "#{serverName}" do
+	    server_name serverName
+		keystorePassword "Liberty"
+#	    collective "default"
+#	    isController true
+	  end
+	end
+
+	if enabled.nil? || isCollectiveMember == true || isCollectiveMember == "true"
+	  Chef::Log.warn "Calling wlp_collective::join"
+	  wlp_collective "#{serverName}" do
+	    action :join
+	    server_name serverName
+		host "localhost"
+		port "9443"
+		user "admin"
+		password "adminpwd"
+		keystorePassword "Liberty"
+#	    collective "default"
+#	    isController true
+	  end
+	end
   end
 end

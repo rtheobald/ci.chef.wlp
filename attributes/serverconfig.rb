@@ -30,3 +30,44 @@ default[:wlp][:servers][:defaultServer] = {
     "httpsPort" => "9443"
   }
 }
+
+default[:wlp][:servers][:test1] = {
+  "enabled" => true,
+  "isCollectiveController" => "true",
+  "serverName" => "test1a",
+  "description" => "Default Server",
+  "featureManager" => {
+    "feature" => [ "jsp-2.2" ]
+  },
+  "httpEndpoint" => {
+    "id" => "defaultHttpEndpoint",
+    "host" => "*",
+    "httpPort" => "9080",
+    "httpsPort" => "9443"
+  }
+}
+
+default[:wlp][:servers][:test2] = {
+  "enabled" => true,
+  "isCollectiveMember" => "true",
+  "serverName" => "test2",
+  "description" => "Default Server",
+  "featureManager" => {
+    "feature" => [ "jsp-2.2" ]
+  },
+  "httpEndpoint" => {
+    "id" => "defaultHttpEndpoint",
+    "host" => "*",
+    "httpPort" => "9080",
+    "httpsPort" => "9443"
+  }
+}
+
+#default[:wlp][:servers][:controller] = {
+#  "enabled" => true,
+#  
+#  "collective" => "default",
+#  "isCollectiveController" => "true",
+#  "isCollectiveMember" => "false",
+#  "cluster" => "defaultCluster",
+#}
