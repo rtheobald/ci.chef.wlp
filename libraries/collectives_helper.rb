@@ -28,7 +28,7 @@ module Liberty
 
     def join(member_name, host, port, user, password, keystorePassword)
       if exists?(member_name)
-        command = "join #{member_name} --host=#{host} --port=#{port} --user=#{user} --password=#{password} --keystorePassword=#{keystorePassword}"
+        command = "join #{member_name} --host=#{host} --port=#{port} --user=#{user} --password=#{password} --keystorePassword=#{keystorePassword} --createConfigFile"
         join = runCommand(command)
         join.error!
         return true
@@ -36,6 +36,28 @@ module Liberty
         return false
       end
     end
+
+
+    def updateAdminUser(serverName, user, password)
+        collectivesXml = "#{@utils.serversDirectory}/#{serverName}/collectives.xml"
+        f = ::File.open(collectivesXml)
+        doc = REXML::Document.new(f)
+
+        doc.root.attributes['userName'] = user
+        doc.root.attributes['userPassword'] = password
+
+
+        f.close
+
+        collectivesXmlNew = "#{@utils.serversDirectory}/#{serverName}/collectives.xml.new"
+        out = ::File.open(collectivesXmlNew, "w")
+        formatter = REXML::Formatters::Pretty.new
+        formatter.compact = true
+        formatter.write(@doc, out)
+        out.close        
+        @utils.chown(collectivesXmlNew)
+        FileUtils.mv(collectivesXmlNew, collectivesXml)
+      end
 
     private
 
