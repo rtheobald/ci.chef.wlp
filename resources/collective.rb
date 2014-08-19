@@ -50,5 +50,11 @@ attribute :user, :kind_of => String, :default => nil
 #<> @attribute password The Administrative user's password. The join, replicate and remove actions require an authenticated user.
 attribute :password, :kind_of => String, :default => nil
 
+#<> @attribute admin_user Name of the quickStartSecurity admin userid
+attribute :admin_user, :kind_of => String, :default => nil
+
+#<> @attribute admin_password Name of the quickStartSecurity admin password
+attribute :admin_password, :kind_of => String, :default => nil
+
 default_action :create
 
