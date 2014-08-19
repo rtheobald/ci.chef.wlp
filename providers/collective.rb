@@ -15,6 +15,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+require "rexml/document"
+
 def whyrun_supported?
   true
 end
@@ -28,7 +30,7 @@ action :create do
   #  Chef::Log.info "#{@new_resource} is already a controller - nothing to do."
   else
     converge_by("Creating collective controller configuration for #{@new_resource}") do
-     createController(new_resource)
+      createController(new_resource)
     end
   end
 end
@@ -84,12 +86,43 @@ def createController(new_resource)
     group node[:wlp][:group]
     returns [0, 22]
   end
+
+  controllerXml = "#{@utils.serverDirectory(new_resource.server_name)}/controller.xml"
+
+  updateAdminUser(controllerXml, new_resource.admin_user, new_resource.admin_password)
+
 end
+
+
 
 def joinMember(new_resource)
   Chef::Log.warn "joinMember called but not implemented."
   Chef::Log.warn "Params: #{new_resource.server_name} and #{new_resource.keystorePassword}"
-  @helper.join(new_resource.server_name, new_resource.host, new_resource.port, new_resource.user, new_resource.password, new_resource.keystorePassword)
+
+  ruby_block  "set-env-" do
+    block { ENV["JVM_ARGS"] = "-DautoAcceptCertificates=true" }
+    not_if { ENV["JVM_ARGS"] == "-DautoAcceptCertificates=true" }
+  end
+
+  #@helper.join(new_resource.server_name, new_resource.host, new_resource.port, new_resource.user, new_resource.password, new_resource.keystorePassword)
+
+        #command = "join #{member_name} --host=#{host} --port=#{port} --user=#{user} --password=#{password} --keystorePassword=#{keystorePassword} --createConfigFile"
+
+  command = "#{@utils.installDirectory}/bin/collective join"
+  command << " #{new_resource.server_name}"
+  command << " --host=#{new_resource.host}"
+  command << " --port=#{new_resource.port}"
+  command << " --user=#{new_resource.user}"
+  command << " --keystorePassword=#{new_resource.keystorePassword}"
+  command << " --password=#{new_resource.password}"
+  command << " --createConfigFile"
+  execute command do
+    command command
+    user node[:wlp][:user]
+    group node[:wlp][:group]
+    returns [0, 22]
+  end
+
 end
 
 def replicateController(new_resource)
@@ -101,6 +134,17 @@ def removeMember(new_resource)
 end
 
 private
+
+def updateAdminUser(controllerXml, user, password)
+  ruby_block "updateAdminUser" do
+    block do
+      newline = "    <quickStartSecurity userName=\"#{user}\" userPassword=\"#{password}\" />"
+      file = Chef::Util::FileEdit.new(controllerXml)
+      file.search_file_replace_line("quickStartSecurity", newline)
+      file.write_file
+    end
+  end
+end
 
 def load_current_resource
   @utils = Liberty::Utils.new(node)
