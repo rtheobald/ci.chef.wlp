@@ -346,7 +346,7 @@ The cookbook is maintained by IBM.
 
 # Notice
 
-© Copyright IBM Corporation 2013, 2014.
+(C) Copyright IBM Corporation 2013, 2014.
 
 # License
 
