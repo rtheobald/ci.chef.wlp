@@ -5,10 +5,6 @@
 ---
 driver_plugin: vagrant
 
-driver:
-  synced_folders: 
-    - [".", "/vagrant"]
-
 platforms:
 - name: ubuntu-12.04
   driver_config:
