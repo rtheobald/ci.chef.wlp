@@ -3,8 +3,6 @@ source "https://api.berkshelf.com"
 metadata
 
 cookbook "apt"
-cookbook "java"
-cookbook "wlp", :git => "https://github.com/WASdev/ci.chef.ihs.git"
-cookbook "iim", :git => "https://github.com/WASdev/ci.chef.wlp.git"
 cookbook "minitest-handler"
-cookbook "robin_test", :path => "test/cookbooks/robin_test"
+cookbook "test_helper", :path => "test/cookbooks/test_helper"
+cookbook "wlp_test", :path => "test/cookbooks/wlp_test"
