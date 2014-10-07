@@ -37,6 +37,17 @@ default[:wlp][:user_dir] = nil
 default[:wlp][:install_method] = 'archive'
 
 #<
+# Indicates whether or not to automatically find the download url for the latest release of Liberty.
+# If the `node[:wlp][:archive][:auto_version]` is set to `nil` then no auto versioning is done and the base_url attribute must be set. 
+# If the `node[:wlp][:archive][:auto_version]` is set to `release` then the latest Liberty release is used.
+# If the `node[:wlp][:archive][:auto_version]` is set to `beta` then the latest Liberty beta release is used.
+#>
+default[:wlp][:archive][:auto_version] = nil
+
+#<> Latest Liberty version yaml file location
+default[:wlp][:archive][:version_yaml] = "http://public.dhe.ibm.com/ibmdl/export/pub/software/websphere/wasdev/downloads/wlp/index.yml"
+
+#<
 # Base URL location for downloading the runtime, extended, and extras Liberty profile archives. 
 # Must be set when `node[:wlp][:install_method]` is set to `archive`. 
 #>

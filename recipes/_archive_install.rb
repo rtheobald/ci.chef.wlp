@@ -22,16 +22,26 @@ This recipe is called by the `default` recipe and should not be used directly.
 #>
 =end
 
-unless node[:wlp][:archive][:base_url]
-  raise "You must specify the base URL location to download WebSphere Application Server Liberty Profile archives."
-end
-
 unless node[:wlp][:archive][:accept_license]
   raise "You must accept the license to install WebSphere Application Server Liberty Profile."
 end
 
+auto_version = node[:wlp][:archive][:auto_version]
+if auto_version == nil
+  unless node[:wlp][:archive][:base_url]
+    raise "You must specify the base URL location to download WebSphere Application Server Liberty Profile archives."
+  end
+  runtime_uri = ::URI.parse(node[:wlp][:archive][:runtime][:url])
+else
+  utils = Liberty::Utils.new(node)
+  urls = utils.autoVersionUrls
+  node.default[:wlp][:archive][:runtime][:url] = urls[0]
+  node.default[:wlp][:archive][:extended][:url] = urls[1]
+  node.default[:wlp][:archive][:extras][:url] = urls[2]
+  runtime_uri = ::URI.parse(node[:wlp][:archive][:runtime][:url])
+end
+
 runtime_dir = "#{node[:wlp][:base_dir]}/wlp"
-runtime_uri = ::URI.parse(node[:wlp][:archive][:runtime][:url])
 runtime_filename = ::File.basename(runtime_uri.path)
 
 # Fetch the WAS Liberty Profile runtime file
@@ -53,7 +63,7 @@ extended_dir = "#{node[:wlp][:base_dir]}/wlp/bin/jaxws"
 
 # Fetch the WAS Liberty Profile extended content
 if node[:wlp][:archive][:extended][:install]
-  extended_uri = ::URI.parse(node[:wlp][:archive][:extended][:url])
+ extended_uri = ::URI.parse(node[:wlp][:archive][:extended][:url])
   extended_filename = ::File.basename(extended_uri.path)
 
   if extended_uri.scheme == "file"

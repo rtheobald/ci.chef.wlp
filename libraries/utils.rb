@@ -62,5 +62,29 @@ module Liberty
       FileUtils.chown(user, group, file)
     end
     
+    def autoVersionUrls
+      require 'open-uri'
+      version_yml  = YAML::load(open(@node['wlp']['archive']['version_yaml']))
+
+      auto_version = @node['wlp']['archive']['auto_version']
+
+      runtime_uri = ''
+      version_yml.each do |key, value|
+        if auto_version == 'release' && key.start_with?('8.5')
+          runtime_uri = ::URI.parse(value["uri"])
+        end
+        if auto_version == 'beta' && key.start_with?('20')
+          runtime_uri = ::URI.parse(value["uri"])
+        end
+      end
+
+      extended = "#{runtime_uri}"
+      extended.sub! '-runtime-', '-extended-'
+      extras = "#{runtime_uri}"
+      extras.sub! '-runtime-', '-extras-'
+
+      return ["#{runtime_uri}", extended, extras]
+    end
+
   end
 end
