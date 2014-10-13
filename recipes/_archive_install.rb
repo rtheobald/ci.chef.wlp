@@ -26,21 +26,15 @@ unless node[:wlp][:archive][:accept_license]
   raise "You must accept the license to install WebSphere Application Server Liberty Profile."
 end
 
-auto_version = node[:wlp][:archive][:auto_version]
-if auto_version == nil
-  unless node[:wlp][:archive][:base_url]
-    raise "You must specify the base URL location to download WebSphere Application Server Liberty Profile archives."
-  end
-  runtime_uri = ::URI.parse(node[:wlp][:archive][:runtime][:url])
-else
+if node[:wlp][:archive][:runtime][:url] == nil
   utils = Liberty::Utils.new(node)
   urls = utils.autoVersionUrls
   node.default[:wlp][:archive][:runtime][:url] = urls[0]
   node.default[:wlp][:archive][:extended][:url] = urls[1]
   node.default[:wlp][:archive][:extras][:url] = urls[2]
-  runtime_uri = ::URI.parse(node[:wlp][:archive][:runtime][:url])
 end
 
+runtime_uri = ::URI.parse(node[:wlp][:archive][:runtime][:url])
 runtime_dir = "#{node[:wlp][:base_dir]}/wlp"
 runtime_filename = ::File.basename(runtime_uri.path)
 
@@ -53,7 +47,6 @@ else
     source node[:wlp][:archive][:runtime][:url]
     user node[:wlp][:user]
     group node[:wlp][:group]
-    checksum node[:wlp][:archive][:runtime][:checksum]
     not_if { ::File.exists?(runtime_dir) }
   end
 end
@@ -74,7 +67,6 @@ if node[:wlp][:archive][:extended][:install]
       source node[:wlp][:archive][:extended][:url]
       user node[:wlp][:user]
       group node[:wlp][:group]
-      checksum node[:wlp][:archive][:extended][:checksum]
       not_if { ::File.exists?(extended_dir) }
     end
   end
@@ -96,7 +88,6 @@ if node[:wlp][:archive][:extras][:install]
       source node[:wlp][:archive][:extras][:url]
       user node[:wlp][:user]
       group node[:wlp][:group]
-      checksum node[:wlp][:archive][:extras][:checksum]
       not_if { ::File.exists?(extras_dir) }
     end
   end

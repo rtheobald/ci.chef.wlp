@@ -66,14 +66,14 @@ module Liberty
       require 'open-uri'
       version_yml  = YAML::load(open(@node['wlp']['archive']['version_yaml']))
 
-      auto_version = @node['wlp']['archive']['auto_version']
+      use_beta = @node['wlp']['archive']['use_beta']
 
       runtime_uri = ''
       version_yml.each do |key, value|
-        if auto_version == 'release' && key.start_with?('8.5')
+        if !use_beta && key.start_with?('8.5')
           runtime_uri = ::URI.parse(value["uri"])
-        end
-        if auto_version == 'beta' && key.start_with?('20')
+        end 
+        if use_beta && key.start_with?('20')
           runtime_uri = ::URI.parse(value["uri"])
         end
       end

@@ -37,42 +37,25 @@ default[:wlp][:user_dir] = nil
 default[:wlp][:install_method] = 'archive'
 
 #<
-# Indicates whether or not to automatically find the download url for the latest release of Liberty.
-# If the `node[:wlp][:archive][:auto_version]` is set to `nil` then no auto versioning is done and the base_url attribute must be set. 
-# If the `node[:wlp][:archive][:auto_version]` is set to `release` then the latest Liberty release is used.
-# If the `node[:wlp][:archive][:auto_version]` is set to `beta` then the latest Liberty beta release is used.
+#  The version_yaml file provides the URLs for the latest release and beta of the WebSphere Liberty Profile for
+#  when using the 'archive' install method. By default, the latest release of WebSphere Liberty Profile is used.
 #>
-default[:wlp][:archive][:auto_version] = nil
-
-#<> Latest Liberty version yaml file location
 default[:wlp][:archive][:version_yaml] = "http://public.dhe.ibm.com/ibmdl/export/pub/software/websphere/wasdev/downloads/wlp/index.yml"
 
-#<
-# Base URL location for downloading the runtime, extended, and extras Liberty profile archives. 
-# Must be set when `node[:wlp][:install_method]` is set to `archive`. 
-#>
-default[:wlp][:archive][:base_url] = nil
+#<> If you want to use the latest beta instead of the latest release, override this property in your own recipe or node properties
+default[:wlp][:archive][:use_beta] = false
 
 #<> URL location of the runtime archive.
-default[:wlp][:archive][:runtime][:url] = "#{node[:wlp][:archive][:base_url]}/wlp-developers-runtime-8.5.5.2.jar"
+default[:wlp][:archive][:runtime][:url] = nil
 
-#<> Checksum value for the runtime archive.
-default[:wlp][:archive][:runtime][:checksum] = 'd3e78cb43ab6392175807b54495bc8996ec9bc7b33cd1fc9699de3e74a9696bc'
-                                                
 #<> URL location of the extended archive.
-default[:wlp][:archive][:extended][:url] = "#{node[:wlp][:archive][:base_url]}/wlp-developers-extended-8.5.5.2.jar"
+default[:wlp][:archive][:extended][:url] = nil
 
-#<> Checksum value for the extended archive.
-default[:wlp][:archive][:extended][:checksum] = 'b4cd9ae8716073ef4c6a2181f7201a31d2c24cfd55337694f09bed7715548ca3'
+#<> URL location of the extras archive.
+default[:wlp][:archive][:extras][:url] = nil
 
 #<> Controls whether the extended archive is downloaded and installed.
 default[:wlp][:archive][:extended][:install] = true
-
-#<> URL location of the extras archive.
-default[:wlp][:archive][:extras][:url] = "#{node[:wlp][:archive][:base_url]}/wlp-developers-extras-8.5.5.2.jar"
-
-#<> Checksum value for the extras archive.
-default[:wlp][:archive][:extras][:checksum] = 'b99a6b4e501c7c6214db49342d198d9949b60b6017f9f75692fd562295ebc11a'
 
 #<> Controls whether the extras archive is downloaded and installed.
 default[:wlp][:archive][:extras][:install] = false
