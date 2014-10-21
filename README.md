@@ -39,27 +39,29 @@ When the zip installation method is used, only the `node[:wlp][:zip][:url]` attr
 
 * `node[:wlp][:user]` - User name under which the server is installed and runs. Defaults to `"wlp"`.
 * `node[:wlp][:group]` - Group name under which the server is installed and runs. Defaults to `"wlp-admin"`.
-* `node[:wlp][:install_java]` - Use the `java` cookbook to install Java. If Java is installed using a different method
-set it to `false`. The Java executables must be available on the __PATH__. Defaults to `"true"`.
+* `node[:wlp][:install_java]` - Use the `java` cookbook to install Java. If Java is installed using a
+different method override it to `false`, in which case, the Java executables
+must be available on the __PATH__. Defaults to `"true"`.
 * `node[:wlp][:base_dir]` - Base installation directory. Defaults to `"/opt/was/liberty"`.
-* `node[:wlp][:user_dir]` - Set user configuration directory (wlp.user.dir). Set to 'nil' to use default location. Defaults to `"nil"`.
+* `node[:wlp][:user_dir]` - User directory (wlp.user.dir). Set to 'nil' to use default location. Defaults to `"nil"`.
 * `node[:wlp][:install_method]` - Installation method. Set it to 'archive' or 'zip'. Defaults to `"archive"`.
-* `node[:wlp][:archive][:base_url]` - Base URL location for downloading the runtime, extended, and extras Liberty profile archives.
-Must be set when `node[:wlp][:install_method]` is set to `archive`. Defaults to `"nil"`.
-* `node[:wlp][:archive][:runtime][:url]` - URL location of the runtime archive. Defaults to `"\#{node[:wlp][:archive][:base_url]}/wlp-developers-runtime-8.5.5.2.jar"`.
-* `node[:wlp][:archive][:runtime][:checksum]` - Checksum value for the runtime archive. Defaults to `"d3e78cb43ab6392175807b54495bc8996ec9bc7b33cd1fc9699de3e74a9696bc"`.
-* `node[:wlp][:archive][:extended][:url]` - URL location of the extended archive. Defaults to `"\#{node[:wlp][:archive][:base_url]}/wlp-developers-extended-8.5.5.2.jar"`.
-* `node[:wlp][:archive][:extended][:checksum]` - Checksum value for the extended archive. Defaults to `"b4cd9ae8716073ef4c6a2181f7201a31d2c24cfd55337694f09bed7715548ca3"`.
+* `node[:wlp][:archive][:version_yaml]` - Location of the Yaml file containing the URLs of the 'archive' install file
+ for the latest release and latest beta. Defaults to `"http://public.dhe.ibm.com/ibmdl/export/pub/software/websphere/wasdev/downloads/wlp/index.yml"`.
+* `node[:wlp][:archive][:use_beta]` - Use the beta instead of the release. Defaults to `"false"`.
+* `node[:wlp][:archive][:runtime][:url]` - URL location of the runtime archive. Overrides the location in the Yaml file. Defaults to `"nil"`.
+* `node[:wlp][:archive][:extended][:url]` - URL location of the extended archive. Only used if the archive runtime url
+ is set. Defaults to `"nil"`.
+* `node[:wlp][:archive][:extras][:url]` - URL location of the extras archive. Only used if
+ `node[:wlp][:archive][:runtime][:url]` is set. Defaults to `"nil"`.
 * `node[:wlp][:archive][:extended][:install]` - Controls whether the extended archive is downloaded and installed. Defaults to `"true"`.
-* `node[:wlp][:archive][:extras][:url]` - URL location of the extras archive. Defaults to `"\#{node[:wlp][:archive][:base_url]}/wlp-developers-extras-8.5.5.2.jar"`.
-* `node[:wlp][:archive][:extras][:checksum]` - Checksum value for the extras archive. Defaults to `"b99a6b4e501c7c6214db49342d198d9949b60b6017f9f75692fd562295ebc11a"`.
 * `node[:wlp][:archive][:extras][:install]` - Controls whether the extras archive is downloaded and installed. Defaults to `"false"`.
 * `node[:wlp][:archive][:extras][:base_dir]` - Base installation directory of the extras archive. Defaults to `"\#{node[:wlp][:base_dir]}/extras"`.
 * `node[:wlp][:archive][:accept_license]` - Accept license terms when doing archive-based installation.
-Must be set to `true` or the installation fails. Defaults to `"false"`.
-* `node[:wlp][:zip][:url]` - URL location for a zip file containing Liberty profile installation files. Must be set
-if `node[:wlp][:install_method]` is set to `zip`. Defaults to `"nil"`.
-* `node[:wlp][:config][:basic]` - Defines a basic server configuration when creating server instances using the `wlp_server` resource. Defaults to `"{ ... }"`.
+ Must be set to `true` or the installation fails. Defaults to `"false"`.
+* `node[:wlp][:zip][:url]` - URL location for a zip file containing Liberty profile installation files.
+ Must be set if `node[:wlp][:install_method]` is set to `zip`. Defaults to `"nil"`.
+* `node[:wlp][:config][:basic]` - Defines a basic server configuration when creating server instances using
+ the `wlp_server` resource. Defaults to `"{ ... }"`.
 * `node[:wlp][:servers][:defaultServer]` - Defines a `defaultServer` server instance. Used by the `serverconfig` recipe. Defaults to `"{ ... }"`.
 
 # Recipes
@@ -95,6 +97,7 @@ node[:wlp][:servers][:airport] = {
 # Resources
 
 * [wlp_bootstrap_properties](#wlp_bootstrap_properties) - Adds, removes, and sets bootstrap properties for a particular server instance.
+* [wlp_collective](#wlp_collective) - Provides operations for creating, joining, replicating, and removing Liberty profile servers from a collective.
 * [wlp_config](#wlp_config) - Generates a server.xml file from a hash expression.
 * [wlp_install_feature](#wlp_install_feature) - Installs a feature from an enterprise subsystem archive (ESA) file.
 * [wlp_jvm_options](#wlp_jvm_options) - Adds, removes, and sets JVM options in an installation-wide or instance-specific jvm.options file.
@@ -134,6 +137,33 @@ wlp_bootstrap_properties "set bootstrap.properties" do
   properties "default.http.port" => "9081", "default.https.port" => "9444"
   action :set
 end
+```
+
+## wlp_collective
+
+Provides operations for creating, joining, replicating, and removing Liberty profile servers from a collective.
+
+### Actions
+
+- create: Creates the initial collective controller for the Liberty collective. Default action.
+- join: Joins a Liberty server to the collective managed by the specified collective controller.
+- remove: Creates and starts the server instance (as an OS service).
+- replicate: Destroys the server instance.
+
+### Attribute Parameters
+
+- server_name: Name of the server instance to operate on
+- keystorePassword: The keystore password to set when creating the collective SSL configuration. Defaults to <code>nil</code>.
+- host: The host of the collective controller to join to, replicate from or remove from. If not specified, the controller host will be looked up from the Chef server. Defaults to <code>nil</code>.
+- port: The port of the collective controller to join to, replicate from or remove from. If not specified, the controller port will be looked up from the Chef server. Defaults to <code>nil</code>.
+- user: An Administrative user name. The join, replicate and remove actions require an authenticated user. Defaults to <code>nil</code>.
+- password: The Administrative user's password. The join, replicate and remove actions require an authenticated user. Defaults to <code>nil</code>.
+- admin_user: Name of the quickStartSecurity admin userid Defaults to <code>nil</code>.
+- admin_password: Name of the quickStartSecurity admin password Defaults to <code>nil</code>.
+
+### Examples
+```ruby
+Fill me in!
 ```
 
 ## wlp_config

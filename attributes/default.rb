@@ -22,36 +22,45 @@ default[:wlp][:user] = "wlp"
 default[:wlp][:group] = "wlp-admin"
 
 #<
-# Use the `java` cookbook to install Java. If Java is installed using a different method  
-# set it to `false`. The Java executables must be available on the __PATH__. 
+# Use the `java` cookbook to install Java. If Java is installed using a
+# different method override it to `false`, in which case, the Java executables
+# must be available on the __PATH__. 
 #>
 default[:wlp][:install_java] = true
 
 #<> Base installation directory.
 default[:wlp][:base_dir] = "/opt/was/liberty"
 
-#<> Set user configuration directory (wlp.user.dir). Set to 'nil' to use default location.
+#<> User directory (wlp.user.dir). Set to 'nil' to use default location.
 default[:wlp][:user_dir] = nil
 
 #<> Installation method. Set it to 'archive' or 'zip'.
 default[:wlp][:install_method] = 'archive'
 
 #<
-#  The version_yaml file provides the URLs for the latest release and beta of the WebSphere Liberty Profile for
-#  when using the 'archive' install method. By default, the latest release of WebSphere Liberty Profile is used.
+#  Location of the Yaml file containing the URLs of the 'archive' install file
+#  for the latest release and latest beta.
 #>
 default[:wlp][:archive][:version_yaml] = "http://public.dhe.ibm.com/ibmdl/export/pub/software/websphere/wasdev/downloads/wlp/index.yml"
 
-#<> If you want to use the latest beta instead of the latest release, override this property in your own recipe or node properties
+#<> Use the beta instead of the release.
 default[:wlp][:archive][:use_beta] = false
 
-#<> URL location of the runtime archive.
+#<
+#  URL location of the runtime archive. Overrides the location in the Yaml file.
+#>
 default[:wlp][:archive][:runtime][:url] = nil
 
-#<> URL location of the extended archive.
+#<
+#  URL location of the extended archive. Only used if the archive runtime url
+#  is set.
+#>
 default[:wlp][:archive][:extended][:url] = nil
 
-#<> URL location of the extras archive.
+#<
+#  URL location of the extras archive. Only used if
+#  `node[:wlp][:archive][:runtime][:url]` is set.
+#>
 default[:wlp][:archive][:extras][:url] = nil
 
 #<> Controls whether the extended archive is downloaded and installed.
@@ -64,18 +73,21 @@ default[:wlp][:archive][:extras][:install] = false
 default[:wlp][:archive][:extras][:base_dir] = "#{node[:wlp][:base_dir]}/extras"
 
 #<
-# Accept license terms when doing archive-based installation. 
-# Must be set to `true` or the installation fails. 
+#  Accept license terms when doing archive-based installation. 
+#  Must be set to `true` or the installation fails. 
 #>
 default[:wlp][:archive][:accept_license] = false
 
 #<
-# URL location for a zip file containing Liberty profile installation files. Must be set 
-# if `node[:wlp][:install_method]` is set to `zip`.
+#  URL location for a zip file containing Liberty profile installation files.
+#  Must be set if `node[:wlp][:install_method]` is set to `zip`.
 #>
 default[:wlp][:zip][:url] = nil
 
-#<> Defines a basic server configuration when creating server instances using the `wlp_server` resource.
+#<
+#  Defines a basic server configuration when creating server instances using
+#  the `wlp_server` resource.
+#>
 default[:wlp][:config][:basic] = {
   "featureManager" => {
     "feature" => [ "jsp-2.2" ]
