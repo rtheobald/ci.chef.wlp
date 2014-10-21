@@ -1,9 +1,6 @@
 
 platforms:
-- name: ubuntu-12.04
-  run_list:
-  - recipe[apt]
-  - recipe[test_helper::fix_permissions]
+- name: ubuntu-14.04-i386
   attributes:
     wlp:
       archive:
@@ -17,8 +14,6 @@ platforms:
             url: http://192.168.1.10:8000/jdk-6u51-fcs-bin-b11-linux-i586-06_jun_2013.bin
 
 - name: centos-6.4
-  run_list:
-  - recipe[test_helper::fix_permissions]
   attributes:
     wlp:
       archive:

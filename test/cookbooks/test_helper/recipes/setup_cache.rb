@@ -29,5 +29,3 @@ if ::File.exist?(src_dir)
     end
   end
 end
-
-include_recipe "test_helper::fix_permissions"
