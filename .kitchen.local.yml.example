@@ -5,7 +5,6 @@ platforms:
     wlp:
       archive:
         accept_license: true
-        base_url: http://192.168.1.10:8000
     java:
       install_flavor: oracle
       jdk:
@@ -18,7 +17,6 @@ platforms:
     wlp:
       archive:
         accept_license: true
-        base_url: http://192.168.1.10:8000
     java:
       install_flavor: oracle
       jdk:
