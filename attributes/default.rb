@@ -19,7 +19,7 @@
 default[:wlp][:user] = "wlp"
 
 #<> Group name under which the server is installed and runs.
-default[:wlp][:group] = "wlp-admin"
+default[:wlp][:group] = "wlpadmin"
 
 #<
 # Use the `java` cookbook to install Java. If Java is installed using a
