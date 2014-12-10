@@ -73,19 +73,21 @@ end
 
 action :start do
 
-  service "wlp-#{new_resource.server_name}" do
-    supports :start => true, :restart => true, :stop => true, :status => true
-    action :nothing
-  end
-
   installDir = @utils.installDirectory
 
-  template "/etc/init.d/wlp-#{new_resource.server_name}" do
+  init_d = case node['platform_family']
+           when 'aix'
+             '/etc/rc.d/init.d'
+           else
+             '/etc/init.d'
+           end
+
+  template "#{init_d}/wlp-#{new_resource.server_name}" do
     cookbook "wlp"
     source "init.d.erb"
     mode "0755"
     owner "root"
-    group "root"
+    group node['root_group']
 
     variables(
       "serverName" => new_resource.server_name,
@@ -98,6 +100,7 @@ action :start do
 
   service "wlp-#{new_resource.server_name}" do
     action [ :enable, :start ]
+    provider Chef::Provider::Service::AixInit if platform?('aix')
   end
 
 end
