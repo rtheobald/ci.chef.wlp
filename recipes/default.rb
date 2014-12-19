@@ -38,7 +38,7 @@ if wlp_user != "root"
     comment 'Liberty Profile Server'
     gid wlp_group
     home wlp_base_dir
-    shell '/bin/bash'
+    shell '/bin/sh'
     system true
   end
 end
@@ -51,7 +51,7 @@ directory wlp_base_dir do
 end
 
 # Install java if requested
-include_recipe "java" if node[:wlp][:install_java]
+include_recipe "java" if node[:wlp][:install_java] && !platform?('aix')
 
 include_recipe "wlp::_#{node[:wlp][:install_method]}_install"
 

@@ -21,7 +21,7 @@ export WLP_INSTALL_DIR="<%= @installDir %>"
 
 SERVER_NAME="<%= @serverName %>"
 
-start() {
+start_service() {
   OPTIONS=<%= @cleanStart ? "--clean" : "" %>
   AUTH_BIND=<%= @authBind ? "authbind --deep" : "" %>
   nohup $AUTH_BIND ${WLP_INSTALL_DIR}/bin/server start $SERVER_NAME $OPTIONS >/dev/null 2>&1 
@@ -29,7 +29,7 @@ start() {
   return $error_code   
 }
 
-stop() {
+stop_service() {
   ${WLP_INSTALL_DIR}/bin/server stop $SERVER_NAME
   error_code=$?
   return $error_code
@@ -46,18 +46,18 @@ statusQuiet() {
 }
 
 restart() {
-  stop
-  start
+  stop_service
+  start_service
 }
 
 case "$1" in
   start)
     statusQuiet && exit 0
-    start
+    start_service
     ;;
   stop)
     statusQuiet || exit 0
-    stop
+    stop_service
     ;;
   status)
     status
