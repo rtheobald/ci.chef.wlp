@@ -99,8 +99,8 @@ def joinMember(new_resource)
   Chef::Log.warn "Params: #{new_resource.server_name} and #{new_resource.keystorePassword}"
 
   ruby_block  "set-env-" do
-    block { ENV["JVM_ARGS"] = "-DautoAcceptCertificates=true" }
-    not_if { ENV["JVM_ARGS"] == "-DautoAcceptCertificates=true" }
+    block { ENV["JVM_ARGS"] = "-Dcom.ibm.websphere.collective.utility.autoAcceptCertificates=true" }
+    not_if { ENV["JVM_ARGS"] == "-Dcom.ibm.websphere.collective.utility.autoAcceptCertificates=true" }
   end
 
   #@helper.join(new_resource.server_name, new_resource.host, new_resource.port, new_resource.user, new_resource.password, new_resource.keystorePassword)
