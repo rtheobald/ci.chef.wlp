@@ -127,8 +127,8 @@ end
 def replicateController(new_resource)
 
   ruby_block  "set-env-" do
-    block { ENV["JVM_ARGS"] = "-DautoAcceptCertificates=true" }
-    not_if { ENV["JVM_ARGS"] == "-DautoAcceptCertificates=true" }
+    block { ENV["JVM_ARGS"] = "-Dcom.ibm.websphere.collective.utility.autoAcceptCertificates=true" }
+    not_if { ENV["JVM_ARGS"] == "-Dcom.ibm.websphere.collective.utility.autoAcceptCertificates=true" }
   end
 
   replicaXml = "#{@utils.serverDirectory(new_resource.server_name)}/replica.xml"
