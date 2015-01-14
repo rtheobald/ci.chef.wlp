@@ -73,7 +73,6 @@ def createController(new_resource)
   #wlp_install_feature "collectiveController-1.0" do
   #  accept_license true
   #end
-  Chef::Log.warn "createController called but not implemented."
   Chef::Log.warn "Params: #{new_resource.server_name} and #{new_resource.keystorePassword}"
   command = "#{@utils.installDirectory}/bin/collective create"
   command << " #{new_resource.server_name}"
@@ -95,7 +94,6 @@ end
 
 
 def joinMember(new_resource)
-  Chef::Log.warn "joinMember called but not implemented."
   Chef::Log.warn "Params: #{new_resource.server_name} and #{new_resource.keystorePassword}"
 
   ruby_block  "set-env-" do
