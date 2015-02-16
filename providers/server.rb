@@ -87,7 +87,7 @@ action :start do
     source "init.d.erb"
     mode "0755"
     owner "root"
-    group node['root_group']
+    group "root"
 
     variables(
       "serverName" => new_resource.server_name,
