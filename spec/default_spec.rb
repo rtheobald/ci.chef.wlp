@@ -52,27 +52,27 @@ describe "wlp::default" do
     end
 
     it "download runtime.jar" do
-      expect(chef_run).to create_remote_file("/var/chef/cache/runtime.jar")
+      expect(chef_run).to create_remote_file("#{Chef::Config[:file_cache_path]}/runtime.jar")
     end
 
     it "download extended.jar" do
-      expect(chef_run).to create_remote_file("/var/chef/cache/extended.jar")
+      expect(chef_run).to create_remote_file("#{Chef::Config[:file_cache_path]}/extended.jar")
     end
 
     it "not download extras.jar" do
-      expect(chef_run).not_to create_remote_file("/var/chef/cache/extras.jar")
+      expect(chef_run).not_to create_remote_file("#{Chef::Config[:file_cache_path]}/extras.jar")
     end
 
     it  "install runtime.jar" do
-      expect(chef_run).to run_execute("java -jar /var/chef/cache/runtime.jar --acceptLicense #{chef_run.node["wlp"]["base_dir"]}").with(:user => chef_run.node["wlp"]["user"], :group => chef_run.node["wlp"]["group"])
+      expect(chef_run).to run_execute("java -jar #{Chef::Config[:file_cache_path]}/runtime.jar --acceptLicense #{chef_run.node["wlp"]["base_dir"]}").with(:user => chef_run.node["wlp"]["user"], :group => chef_run.node["wlp"]["group"])
     end
 
     it  "install extended.jar" do
-      expect(chef_run).to run_execute("java -jar /var/chef/cache/extended.jar --acceptLicense #{chef_run.node["wlp"]["base_dir"]}").with(:user => chef_run.node["wlp"]["user"], :group => chef_run.node["wlp"]["group"])
+      expect(chef_run).to run_execute("java -jar #{Chef::Config[:file_cache_path]}/extended.jar --acceptLicense #{chef_run.node["wlp"]["base_dir"]}").with(:user => chef_run.node["wlp"]["user"], :group => chef_run.node["wlp"]["group"])
     end
 
     it  "not install extras.jar" do
-      expect(chef_run).not_to run_execute("java -jar /var/chef/cache/extras.jar --acceptLicense #{chef_run.node["wlp"]["archive"]["extras"]["base_dir"]}").with(:user => chef_run.node["wlp"]["user"], :group => chef_run.node["wlp"]["group"])
+      expect(chef_run).not_to run_execute("java -jar #{Chef::Config[:file_cache_path]}/extras.jar --acceptLicense #{chef_run.node["wlp"]["archive"]["extras"]["base_dir"]}").with(:user => chef_run.node["wlp"]["user"], :group => chef_run.node["wlp"]["group"])
     end
 
   end
@@ -114,27 +114,27 @@ describe "wlp::default" do
     end
 
     it "download runtime.jar" do
-      expect(chef_run).to create_remote_file("/var/chef/cache/runtime.jar")
+      expect(chef_run).to create_remote_file("#{Chef::Config[:file_cache_path]}/runtime.jar")
     end
 
     it "not download extended.jar" do
-      expect(chef_run).not_to create_remote_file("/var/chef/cache/extended.jar")
+      expect(chef_run).not_to create_remote_file("#{Chef::Config[:file_cache_path]}/extended.jar")
     end
 
     it "download extras.jar" do
-      expect(chef_run).to create_remote_file("/var/chef/cache/extras.jar")
+      expect(chef_run).to create_remote_file("#{Chef::Config[:file_cache_path]}/extras.jar")
     end
 
     it  "install runtime.jar" do
-      expect(chef_run).to run_execute("java -jar /var/chef/cache/runtime.jar --acceptLicense #{chef_run.node["wlp"]["base_dir"]}").with(:user => chef_run.node["wlp"]["user"], :group => chef_run.node["wlp"]["group"])
+      expect(chef_run).to run_execute("java -jar #{Chef::Config[:file_cache_path]}/runtime.jar --acceptLicense #{chef_run.node["wlp"]["base_dir"]}").with(:user => chef_run.node["wlp"]["user"], :group => chef_run.node["wlp"]["group"])
     end
 
     it  "not install extended.jar" do
-      expect(chef_run).not_to run_execute("java -jar /var/chef/cache/extended.jar --acceptLicense #{chef_run.node["wlp"]["base_dir"]}").with(:user => chef_run.node["wlp"]["user"], :group => chef_run.node["wlp"]["group"])
+      expect(chef_run).not_to run_execute("java -jar #{Chef::Config[:file_cache_path]}/extended.jar --acceptLicense #{chef_run.node["wlp"]["base_dir"]}").with(:user => chef_run.node["wlp"]["user"], :group => chef_run.node["wlp"]["group"])
     end
 
     it  "install extras.jar" do
-      expect(chef_run).to run_execute("java -jar /var/chef/cache/extras.jar --acceptLicense #{chef_run.node["wlp"]["archive"]["extras"]["base_dir"]}").with(:user => chef_run.node["wlp"]["user"], :group => chef_run.node["wlp"]["group"])
+      expect(chef_run).to run_execute("java -jar #{Chef::Config[:file_cache_path]}/extras.jar --acceptLicense #{chef_run.node["wlp"]["archive"]["extras"]["base_dir"]}").with(:user => chef_run.node["wlp"]["user"], :group => chef_run.node["wlp"]["group"])
     end
 
   end
@@ -185,27 +185,27 @@ describe "wlp::default" do
     end
 
     it "download runtime.jar" do
-      expect(chef_run).to create_remote_file("/var/chef/cache/runtime.jar")
+      expect(chef_run).to create_remote_file("#{Chef::Config[:file_cache_path]}/runtime.jar")
     end
 
     it "download extended.jar" do
-      expect(chef_run).to create_remote_file("/var/chef/cache/extended.jar")
+      expect(chef_run).to create_remote_file("#{Chef::Config[:file_cache_path]}/extended.jar")
     end
 
     it "download extras.jar" do
-      expect(chef_run).to create_remote_file("/var/chef/cache/extras.jar")
+      expect(chef_run).to create_remote_file("#{Chef::Config[:file_cache_path]}/extras.jar")
     end
 
     it  "install runtime.jar" do
-      expect(chef_run).to run_execute("java -jar /var/chef/cache/runtime.jar --acceptLicense #{chef_run.node["wlp"]["base_dir"]}").with(:user => chef_run.node["wlp"]["user"], :group => chef_run.node["wlp"]["group"])
+      expect(chef_run).to run_execute("java -jar #{Chef::Config[:file_cache_path]}/runtime.jar --acceptLicense #{chef_run.node["wlp"]["base_dir"]}").with(:user => chef_run.node["wlp"]["user"], :group => chef_run.node["wlp"]["group"])
     end
 
     it  "install extended.jar" do
-      expect(chef_run).to run_execute("java -jar /var/chef/cache/extended.jar --acceptLicense #{chef_run.node["wlp"]["base_dir"]}").with(:user => chef_run.node["wlp"]["user"], :group => chef_run.node["wlp"]["group"])
+      expect(chef_run).to run_execute("java -jar #{Chef::Config[:file_cache_path]}/extended.jar --acceptLicense #{chef_run.node["wlp"]["base_dir"]}").with(:user => chef_run.node["wlp"]["user"], :group => chef_run.node["wlp"]["group"])
     end
 
     it  "install extras.jar" do
-      expect(chef_run).to run_execute("java -jar /var/chef/cache/extras.jar --acceptLicense #{chef_run.node["wlp"]["archive"]["extras"]["base_dir"]}").with(:user => chef_run.node["wlp"]["user"], :group => chef_run.node["wlp"]["group"])
+      expect(chef_run).to run_execute("java -jar #{Chef::Config[:file_cache_path]}/extras.jar --acceptLicense #{chef_run.node["wlp"]["archive"]["extras"]["base_dir"]}").with(:user => chef_run.node["wlp"]["user"], :group => chef_run.node["wlp"]["group"])
     end
 
   end
@@ -248,11 +248,11 @@ describe "wlp::default" do
     end
 
     it "download wlp.zip" do
-      expect(chef_run).to create_remote_file("/var/chef/cache/wlp.zip")
+      expect(chef_run).to create_remote_file("#{Chef::Config[:file_cache_path]}/wlp.zip")
     end
 
     it  "unzip wlp.zip" do
-      expect(chef_run).to run_execute("unzip /var/chef/cache/wlp.zip").with(:cwd => chef_run.node["wlp"]["base_dir"], :user => chef_run.node["wlp"]["user"], :group => chef_run.node["wlp"]["group"])
+      expect(chef_run).to run_execute("unzip #{Chef::Config[:file_cache_path]}/wlp.zip").with(:cwd => chef_run.node["wlp"]["base_dir"], :user => chef_run.node["wlp"]["user"], :group => chef_run.node["wlp"]["group"])
     end
 
   end
@@ -291,7 +291,7 @@ describe "wlp::default" do
     end
 
     it "download wlp.zip" do
-      expect(chef_run).not_to create_remote_file("/var/chef/cache/wlp.zip")
+      expect(chef_run).not_to create_remote_file("#{Chef::Config[:file_cache_path]}/wlp.zip")
     end
 
     it  "unzip wlp.zip" do
@@ -334,15 +334,15 @@ describe "wlp::default" do
     end
 
     it "download runtime.jar" do
-      expect(chef_run).not_to create_remote_file("/var/chef/cache/runtime.jar")
+      expect(chef_run).not_to create_remote_file("#{Chef::Config[:file_cache_path]}/runtime.jar")
     end
 
     it "download extended.jar" do
-      expect(chef_run).not_to create_remote_file("/var/chef/cache/extended.jar")
+      expect(chef_run).not_to create_remote_file("#{Chef::Config[:file_cache_path]}/extended.jar")
     end
 
     it "not download extras.jar" do
-      expect(chef_run).not_to create_remote_file("/var/chef/cache/extras.jar")
+      expect(chef_run).not_to create_remote_file("#{Chef::Config[:file_cache_path]}/extras.jar")
     end
 
     it  "install runtime.jar" do
