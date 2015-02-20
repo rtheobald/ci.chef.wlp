@@ -29,6 +29,7 @@ When the zip installation method is used, only the `node[:wlp][:zip][:url]` attr
 
 ## Platform:
 
+* Aix
 * Debian
 * Ubuntu
 * Centos
@@ -41,7 +42,7 @@ When the zip installation method is used, only the `node[:wlp][:zip][:url]` attr
 # Attributes
 
 * `node[:wlp][:user]` - User name under which the server is installed and runs. Defaults to `"wlp"`.
-* `node[:wlp][:group]` - Group name under which the server is installed and runs. Defaults to `"wlp-admin"`.
+* `node[:wlp][:group]` - Group name under which the server is installed and runs. Defaults to `"wlpadmin"`.
 * `node[:wlp][:install_java]` - Use the `java` cookbook to install Java. If Java is installed using a
 different method override it to `false`, in which case, the Java executables
 must be available on the __PATH__. Defaults to `"true"`.
