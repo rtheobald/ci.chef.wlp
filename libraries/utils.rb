@@ -72,9 +72,12 @@ module Liberty
       version_yml.each do |key, value|
         if !use_beta && key.start_with?('8.5')
           runtime_uri = ::URI.parse(value["uri"])
+          # The newest version is the first one listed so break out after the first
+          break
         end 
         if use_beta && key.start_with?('20')
           runtime_uri = ::URI.parse(value["uri"])
+          break
         end
       end
 
