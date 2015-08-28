@@ -83,7 +83,7 @@ action :start do
            end
 
   template "#{init_d}/wlp-#{new_resource.server_name}" do
-    cookbook "wlp"
+    cookbook "wlp_ibm"
     source "init.d.erb"
     mode "0755"
     owner "root"
