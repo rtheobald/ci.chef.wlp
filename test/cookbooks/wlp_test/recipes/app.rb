@@ -15,7 +15,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-include_recipe "wlp::default"
+include_recipe "wlp_ibm::default"
 
 server_name = "jsp-examples"
 app_file = "jsp-examples-war-3.0-M1.war"

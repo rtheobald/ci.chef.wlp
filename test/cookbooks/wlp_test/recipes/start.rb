@@ -15,7 +15,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-include_recipe "wlp::default"
+include_recipe "wlp_ibm::default"
 
 wlp_server "testServer" do
   action [:create, :start]

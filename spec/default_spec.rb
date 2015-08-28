@@ -14,7 +14,7 @@
 
 require "chefspec"
 
-describe "wlp::default" do
+describe "wlp_ibm::default" do
 
   context "archive::basic" do
     let (:chef_run) { 
@@ -24,15 +24,15 @@ describe "wlp::default" do
       chef_run.node.set["wlp"]["archive"]["runtime"]["url"] = "#{chef_run.node["wlp"]["archive"]["base_url"]}/runtime.jar"
       chef_run.node.set["wlp"]["archive"]["extended"]["url"] = "#{chef_run.node["wlp"]["archive"]["base_url"]}/extended.jar"
       chef_run.node.set["wlp"]["archive"]["extras"]["url"] = "#{chef_run.node["wlp"]["archive"]["base_url"]}/extras.jar"
-      chef_run.converge "wlp::default"
+      chef_run.converge "wlp_ibm::default"
     }
 
     it "include archive_install" do
-      expect(chef_run).to include_recipe("wlp::_archive_install")
+      expect(chef_run).to include_recipe("wlp_ibm::_archive_install")
     end
 
     it "include java recipe" do
-      expect(chef_run).to include_recipe("java::default")
+      expect(chef_run).to include_recipe("java_ibm::default")
     end
 
     it "create group" do
@@ -90,11 +90,11 @@ describe "wlp::default" do
       chef_run.node.set["wlp"]["archive"]["extended"]["install"] = false
       chef_run.node.set["wlp"]["archive"]["extras"]["url"] = "#{chef_run.node["wlp"]["archive"]["base_url"]}/extras.jar"
       chef_run.node.set["wlp"]["archive"]["extras"]["install"] = true
-      chef_run.converge "wlp::default"
+      chef_run.converge "wlp_ibm::default"
     }
 
     it "include archive_install" do
-      expect(chef_run).to include_recipe("wlp::_archive_install")
+      expect(chef_run).to include_recipe("wlp_ibm::_archive_install")
     end
 
     it "create group" do
@@ -153,11 +153,11 @@ describe "wlp::default" do
       chef_run.node.set["wlp"]["archive"]["extras"]["url"] = "#{chef_run.node["wlp"]["archive"]["base_url"]}/extras.jar"
       chef_run.node.set["wlp"]["archive"]["extras"]["install"] = true
       chef_run.node.set["wlp"]["archive"]["extras"]["base_dir"] = "/liberty/extras"
-      chef_run.converge "wlp::default"
+      chef_run.converge "wlp_ibm::default"
     }
 
     it "include archive_install" do
-      expect(chef_run).to include_recipe("wlp::_archive_install")
+      expect(chef_run).to include_recipe("wlp_ibm::_archive_install")
     end
 
     it "create group" do
@@ -216,15 +216,15 @@ describe "wlp::default" do
       chef_run = ChefSpec::Runner.new(:platform => "ubuntu", :version => "12.04")
       chef_run.node.set["wlp"]["install_method"] = "zip"
       chef_run.node.set["wlp"]["zip"]["url"] = "http://example.com/wlp.zip"
-      chef_run.converge "wlp::default"
+      chef_run.converge "wlp_ibm::default"
     }
 
     it "include zip_install" do
-      expect(chef_run).to include_recipe("wlp::_zip_install")
+      expect(chef_run).to include_recipe("wlp_ibm::_zip_install")
     end
 
     it "include java recipe" do
-      expect(chef_run).to include_recipe("java::default")
+      expect(chef_run).to include_recipe("java_ibm::default")
     end
 
     it "create group" do
@@ -263,11 +263,11 @@ describe "wlp::default" do
       chef_run = ChefSpec::Runner.new(:platform => "ubuntu", :version => "12.04")
       chef_run.node.set["wlp"]["install_method"] = "zip"
       chef_run.node.set["wlp"]["zip"]["url"] = "file:///mnt/shared/wlp.zip"
-      chef_run.converge "wlp::default"
+      chef_run.converge "wlp_ibm::default"
     }
 
     it "include zip_install" do
-      expect(chef_run).to include_recipe("wlp::_zip_install")
+      expect(chef_run).to include_recipe("wlp_ibm::_zip_install")
     end
 
     it "create group" do
@@ -310,11 +310,11 @@ describe "wlp::default" do
       chef_run.node.set["wlp"]["archive"]["extended"]["url"] = "#{chef_run.node["wlp"]["archive"]["base_url"]}/extended.jar"
       chef_run.node.set["wlp"]["archive"]["extras"]["url"] = "file:///root/extras.jar"
       chef_run.node.set["wlp"]["archive"]["extras"]["install"] = true
-      chef_run.converge "wlp::default"
+      chef_run.converge "wlp_ibm::default"
     }
 
     it "include archive_install" do
-      expect(chef_run).to include_recipe("wlp::_archive_install")
+      expect(chef_run).to include_recipe("wlp_ibm::_archive_install")
     end
 
     it "create group" do
@@ -369,15 +369,15 @@ describe "wlp::default" do
       chef_run.node.set["wlp"]["archive"]["extended"]["url"] = "#{chef_run.node["wlp"]["archive"]["base_url"]}/extended.jar"
       chef_run.node.set["wlp"]["archive"]["extras"]["url"] = "#{chef_run.node["wlp"]["archive"]["base_url"]}/extras.jar"
       chef_run.node.set["wlp"]["install_java"] = false
-      chef_run.converge "wlp::default"
+      chef_run.converge "wlp_ibm::default"
     }
 
     it "include archive_install" do
-      expect(chef_run).to include_recipe("wlp::_archive_install")
+      expect(chef_run).to include_recipe("wlp_ibm::_archive_install")
     end
 
     it "include java recipe" do
-      expect(chef_run).not_to include_recipe("java::default")
+      expect(chef_run).not_to include_recipe("java_ibm::default")
     end
   end
 
@@ -387,15 +387,15 @@ describe "wlp::default" do
       chef_run.node.set["wlp"]["install_method"] = "zip"
       chef_run.node.set["wlp"]["zip"]["url"] = "http://example.com/wlp.zip"
       chef_run.node.set["wlp"]["install_java"] = false
-      chef_run.converge "wlp::default"
+      chef_run.converge "wlp_ibm::default"
     }
 
     it "include zip_install" do
-      expect(chef_run).to include_recipe("wlp::_zip_install")
+      expect(chef_run).to include_recipe("wlp_ibm::_zip_install")
     end
 
     it "include java recipe" do
-      expect(chef_run).not_to include_recipe("java::default")
+      expect(chef_run).not_to include_recipe("java_ibm::default")
     end
   end
 

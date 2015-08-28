@@ -15,7 +15,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-include_recipe "wlp::default"
+include_recipe "wlp_ibm::default"
 
 wlp_install_feature "mongodb" do
   location "http://public.dhe.ibm.com/ibmdl/export/pub/software/websphere/wasdev/downloads/wlp/8.5.5.1/com.ibm.websphere.appserver.mongodb-2.0.esa"
