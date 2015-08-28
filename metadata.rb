@@ -12,4 +12,4 @@ supports "ubuntu"
 supports "centos"
 supports "redhat"
 
-depends "java", ">= 1.16.4"
+depends "java_ibm"
