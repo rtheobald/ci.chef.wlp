@@ -51,7 +51,7 @@ directory wlp_base_dir do
 end
 
 # Install java if requested
-include_recipe "java" if node[:wlp][:install_java] && !platform?('aix')
+include_recipe "java_ibm" if node[:wlp][:install_java] && !platform?('aix')
 
 include_recipe "wlp::_#{node[:wlp][:install_method]}_install"
 
