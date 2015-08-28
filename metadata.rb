@@ -1,4 +1,4 @@
-name             'wlp'
+name             'wlp_ibm'
 maintainer       'IBM'
 maintainer_email ''
 license          'Apache 2.0'
