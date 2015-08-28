@@ -53,7 +53,7 @@ end
 # Install java if requested
 include_recipe "java_ibm" if node[:wlp][:install_java] && !platform?('aix')
 
-include_recipe "wlp::_#{node[:wlp][:install_method]}_install"
+include_recipe "wlp_ibm::_#{node[:wlp][:install_method]}_install"
 
 wlp_user_dir = node[:wlp][:user_dir]
 if wlp_user_dir
