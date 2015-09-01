@@ -57,7 +57,7 @@ node[:wlp][:servers].each_pair do |key, value|
       recursive true
     end
 
-    wlp_config "#{servers_dir}/#{serverName}/server.xml" do
+    wlp_ibm_config "#{servers_dir}/#{serverName}/server.xml" do
       config map
     end
   end

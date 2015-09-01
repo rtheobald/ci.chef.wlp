@@ -46,23 +46,23 @@ def update(new_resource)
   end
 
   config = new_resource.config || node[:wlp][:config][:basic]
-  wlp_config "#{servers_dir}/#{new_resource.server_name}/server.xml" do
+  wlp_ibm_config "#{servers_dir}/#{new_resource.server_name}/server.xml" do
     config config
   end
   
-  wlp_jvm_options "jvm.options for #{new_resource.server_name}" do
+  wlp_ibm_jvm_options "jvm.options for #{new_resource.server_name}" do
     server_name new_resource.server_name
     options new_resource.jvmOptions
     action :set
   end
 
-  wlp_server_env "server.env for #{new_resource.server_name}" do
+  wlp_ibm_server_env "server.env for #{new_resource.server_name}" do
     server_name new_resource.server_name
     properties new_resource.serverEnv
     action :set
   end
 
-  wlp_bootstrap_properties "bootstrap.properties for #{new_resource.server_name}" do
+  wlp_ibm_bootstrap_properties "bootstrap.properties for #{new_resource.server_name}" do
     server_name new_resource.server_name
     properties new_resource.bootstrapProperties
     action :set

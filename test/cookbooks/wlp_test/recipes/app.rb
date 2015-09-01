@@ -21,7 +21,7 @@ server_name = "jsp-examples"
 app_file = "jsp-examples-war-3.0-M1.war"
 
 # create server
-wlp_server server_name do
+wlp_ibm_server server_name do
   config ({
             "featureManager" => {
               "feature" => [ "jsp-2.2" ]
@@ -59,6 +59,6 @@ remote_file "#{apps_dir}/#{app_file}" do
 end
 
 # start server
-wlp_server server_name do
+wlp_ibm_server server_name do
   action :start
 end

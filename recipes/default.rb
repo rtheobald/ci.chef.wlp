@@ -66,7 +66,7 @@ if wlp_user_dir
     end
     
     # Set WLP_USER_DIR in etc/server.env
-    wlp_server_env "set_user_dir" do
+    wlp_ibm_server_env "set_user_dir" do
       properties "WLP_USER_DIR" => node[:wlp][:user_dir]
       action :set
     end

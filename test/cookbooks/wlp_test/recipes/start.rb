@@ -17,7 +17,7 @@
 
 include_recipe "wlp_ibm::default"
 
-wlp_server "testServer" do
+wlp_ibm_server "testServer" do
   action [:create, :start]
 end
 
